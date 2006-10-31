@@ -1,0 +1,42 @@
+# parameters for KalmanAlignmentAlgorithm
+
+block KalmanAlignmentAlgorithm =
+{
+  string algoName = "KalmanAlignmentAlgorithm"
+
+  // For the refitter
+  string Fitter = "KFFittingSmoother"   
+  string Propagator = "PropagatorWithMaterial" 
+  string TTRHBuilder = "WithoutRefit"
+  //string src = "AlignmentTracks"
+  string src = "ctfWithMaterialTracks"
+
+  include "Alignment/KalmanAlignmentAlgorithm/data/SingleTrajectoryUpdator.cfi"
+  string AlignmentUpdator = "SingleTrajectoryUpdator"
+
+  include "Alignment/CommonAlignmentAlgorithm/data/ReferenceTrajectoryFactory.cfi"
+  string TrajectoryFactory = "ReferenceTrajectoryFactory"
+
+  PSet Initialization =
+  {
+    untracked bool ApplyXShifts = true
+    untracked bool ApplyYShifts = false
+    untracked bool ApplyZShifts = false
+    untracked bool ApplyXRotations = false
+    untracked bool ApplyYRotations = false
+    untracked bool ApplyZRotations = false
+
+    untracked double SigmaXShifts = 1e-2
+    untracked double SigmaYShifts = 1e-2
+    untracked double SigmaZShifts = 1e-2
+    untracked double SigmaXRotations = 1e-3
+    untracked double SigmaYRotations = 1e-3
+    untracked double SigmaZRotations = 1e-3
+
+    untracked bool AddPositionError = false
+
+    untracked int32 UpdateGraphs = 1
+  }
+
+    bool debug = false
+}
