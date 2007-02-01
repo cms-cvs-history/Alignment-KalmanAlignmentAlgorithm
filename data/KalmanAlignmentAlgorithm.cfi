@@ -2,41 +2,54 @@
 
 block KalmanAlignmentAlgorithm =
 {
-  string algoName = "KalmanAlignmentAlgorithm"
+    string algoName = "KalmanAlignmentAlgorithm"
 
-  // For the refitter
-  string Fitter = "KFFittingSmoother"   
-  string Propagator = "PropagatorWithMaterial" 
-  string TTRHBuilder = "WithoutRefit"
-  //string src = "AlignmentTracks"
-  string src = "ctfWithMaterialTracks"
+    # For the refitter
+    string Fitter = "KFFittingSmoother"   
+    string Propagator = "PropagatorWithMaterial" 
+    string TTRHBuilder = "WithoutRefit"
+    string src = "ctfWithMaterialTracks"
 
-  include "Alignment/KalmanAlignmentAlgorithm/data/SingleTrajectoryUpdator.cfi"
-  string AlignmentUpdator = "SingleTrajectoryUpdator"
+    string AlignmentUpdator = "SingleTrajectoryUpdator"
+    include "Alignment/KalmanAlignmentAlgorithm/data/SingleTrajectoryUpdator.cfi"
 
-  include "Alignment/CommonAlignmentAlgorithm/data/ReferenceTrajectoryFactory.cfi"
-  string TrajectoryFactory = "ReferenceTrajectoryFactory"
+    #string AlignmentUpdator = "DummyUpdator"
+    #PSet DummyUpdator = { }
 
-  PSet Initialization =
-  {
-    untracked bool ApplyXShifts = true
-    untracked bool ApplyYShifts = false
-    untracked bool ApplyZShifts = false
-    untracked bool ApplyXRotations = false
-    untracked bool ApplyYRotations = false
-    untracked bool ApplyZRotations = false
+    string TrajectoryFactory = "ReferenceTrajectoryFactory"
+    include "Alignment/CommonAlignmentAlgorithm/data/ReferenceTrajectoryFactory.cfi"
 
-    untracked double SigmaXShifts = 1e-2
-    untracked double SigmaYShifts = 1e-2
-    untracked double SigmaZShifts = 1e-2
-    untracked double SigmaXRotations = 1e-3
-    untracked double SigmaYRotations = 1e-3
-    untracked double SigmaZRotations = 1e-3
+    #string MetricsUpdator = "DummyMetricsUpdator"
+    #PSet DummyMetricsUpdator = { untracked vuint32 FixedAlignableDetIds = { 1, 2 } }
 
-    untracked bool AddPositionError = false
+    string MetricsUpdator = "SimpleMetricsUpdator"
+    PSet SimpleMetricsUpdator = { untracked int32 MaxMetricsDistance = 3 }
 
-    untracked int32 UpdateGraphs = 1
-  }
 
-    bool debug = false
+    PSet DataCollector = { untracked string FileName = "KalmanAlignmentAlgorithm.root" }
+
+    untracked string TimingLogFile = "Timing.log"
+
+    PSet Initialization =
+    {
+        untracked bool ApplyXShifts = true
+        untracked bool ApplyYShifts = true
+        untracked bool ApplyZShifts = false
+        untracked bool ApplyXRotations = false
+        untracked bool ApplyYRotations = false
+        untracked bool ApplyZRotations = true
+
+        untracked double SigmaXShifts = 1e-2
+        untracked double SigmaYShifts = 1e-2
+        untracked double SigmaZShifts = 1e-2
+        untracked double SigmaXRotations = 5e-3
+        untracked double SigmaYRotations = 5e-3
+        untracked double SigmaZRotations = 5e-3
+
+        untracked bool AddPositionError = false
+
+        untracked int32 UpdateGraphs = 100
+    }
+
+    bool RefitterDebug = true
 }
