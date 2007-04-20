@@ -17,7 +17,7 @@ block KalmanAlignmentAlgorithm =
     #PSet DummyUpdator = { }
 
     string TrajectoryFactory = "ReferenceTrajectoryFactory"
-    include "Alignment/CommonAlignmentAlgorithm/data/ReferenceTrajectoryFactory.cfi"
+    include "Alignment/ReferenceTrajectories/data/ReferenceTrajectoryFactory.cfi"
 
     #string MetricsUpdator = "DummyMetricsUpdator"
     #PSet DummyMetricsUpdator = { untracked vuint32 FixedAlignableDetIds = { 1, 2 } }
