@@ -16,7 +16,7 @@ block KalmanAlignmentAlgorithm =
     #string AlignmentUpdator = "DummyUpdator"
     #PSet DummyUpdator = { }
 
-    include "Alignment/ReferenceTrajectories/data/TrajectoryFactories.cfi"
+    include "Alignment/ReferenceTrajectories/data/TrajectoryFactories.cff"
     PSet TrajectoryFactory =
     {
 	using ReferenceTrajectoryFactory
