@@ -9,7 +9,9 @@ block KalmanAlignmentAlgorithm =
     string Propagator = "PropagatorWithMaterial" 
     string TTRHBuilder = "WithoutRefit"
     string src = "ctfWithMaterialTracks"
+    bool useHitsSplitting = false
 
+	
     string AlignmentUpdator = "SingleTrajectoryUpdator"
     include "Alignment/KalmanAlignmentAlgorithm/data/SingleTrajectoryUpdator.cfi"
 
