@@ -4,59 +4,80 @@ block KalmanAlignmentAlgorithm =
 {
     string algoName = "KalmanAlignmentAlgorithm"
 
-    # For the refitter
-    string Fitter = "KFFittingSmoother"   
-    string Propagator = "PropagatorWithMaterial" 
-    string TTRHBuilder = "WithoutRefit"
-    string src = "ctfWithMaterialTracks"
-    bool useHitsSplitting = false
-
-	
-    string AlignmentUpdator = "SingleTrajectoryUpdator"
-    include "Alignment/KalmanAlignmentAlgorithm/data/SingleTrajectoryUpdator.cfi"
-
-    #string AlignmentUpdator = "DummyUpdator"
-    #PSet DummyUpdator = { }
-
     include "Alignment/ReferenceTrajectories/data/TrajectoryFactories.cff"
-    PSet TrajectoryFactory =
+    PSet TrajectoryFactory = { using ReferenceTrajectoryFactory }
+
+    include "Alignment/KalmanAlignmentAlgorithm/data/TrajectoryUpdators.cff"	
+    string AlignmentUpdator = "SingleTrajectoryUpdator"
+
+    include "Alignment/ReferenceTrajectories/data/MetricsUpdators.cff"
+    string MetricsUpdator = "SimpleMetricsUpdator"
+
+    PSet TrackRefitter =
     {
-	using ReferenceTrajectoryFactory
-	#using BzeroReferenceTrajectoryFactory
-	#using TwoBodyDecayReferenceTrajectoryFactory
+	string Fitter = "KFFittingSmoother"   
+	string Propagator = "AnalyticalPropagator"
+	string TTRHBuilder = "WithoutRefit"
+	bool useHitsSplitting = false
+	untracked bool debug = true
+
+	vstring TrackingSetup = { "PixelBarrelTracking" }
+
+	PSet PixelBarrelTracking =
+	{
+	    vint32 Tracking = { 1 }
+	    vint32 External = { 3, 5 }
+
+	    untracked uint32 MinTrackingHits = 3
+	    untracked uint32 MinExternalHits = 7
+
+	    untracked string PropagationDirection = "alongMomentum"
+	    untracked string ExternalPropagationDirection = "alongMomentum"
+
+	    untracked bool SortInsideOut = true
+	    untracked bool SortExternalInsideOut = true
+
+	    untracked bool ReuseMomentumEstimate = true
+	    untracked bool ExternalReuseMomentumEstimate = true
+	}
     }
 
-    #string MetricsUpdator = "DummyMetricsUpdator"
-    #PSet DummyMetricsUpdator = { untracked vuint32 FixedAlignableDetIds = { 1, 2 } }
+    PSet Initialization =
+    {
+        untracked int32 UpdateGraphs = 100
+	untracked bool AddPositionError = false
+	untracked bool ApplyRandomStartValues = false
 
-    string MetricsUpdator = "SimpleMetricsUpdator"
-    PSet SimpleMetricsUpdator = { untracked int32 MaxMetricsDistance = 3 }
+	vstring InitializationSelector = { "PixelBarrel" }
 
+	PSet PixelBarrel =
+	{
+ 	    vstring AlignableSelection = { "PixelDets" }
+
+	    untracked string FileName = "pixeldets.root"
+
+	    untracked bool ReadParametersFromFile = false
+	    untracked bool ReadCovarianceFromFile = false
+	    untracked bool ApplyParametersFromFile = false
+	    untracked bool ApplyErrorFromFile = false
+
+ 	    untracked double XShiftsStartError = 1e-4
+ 	    untracked double YShiftsStartError = 1e-4
+ 	    untracked double ZShiftsStartError = 1e-4
+ 	    untracked double XRotationsStartError = 1e-8
+ 	    untracked double YRotationsStartError = 1e-8
+ 	    untracked double ZRotationsStartError = 1e-8
+
+ 	    untracked double SigmaXShifts = 1e-4
+ 	    untracked double SigmaYShifts = 1e-4
+ 	    untracked double SigmaZShifts = 1e-4
+ 	    untracked double SigmaXRotations = 1e-8
+ 	    untracked double SigmaYRotations = 1e-8
+ 	    untracked double SigmaZRotations = 1e-8
+	}
+    }
 
     PSet DataCollector = { untracked string FileName = "KalmanAlignmentAlgorithm.root" }
 
     untracked string TimingLogFile = "Timing.log"
-
-    PSet Initialization =
-    {
-        untracked bool ApplyXShifts = true
-        untracked bool ApplyYShifts = true
-        untracked bool ApplyZShifts = false
-        untracked bool ApplyXRotations = false
-        untracked bool ApplyYRotations = false
-        untracked bool ApplyZRotations = true
-
-        untracked double SigmaXShifts = 1e-2
-        untracked double SigmaYShifts = 1e-2
-        untracked double SigmaZShifts = 1e-2
-        untracked double SigmaXRotations = 5e-3
-        untracked double SigmaYRotations = 5e-3
-        untracked double SigmaZRotations = 5e-3
-
-        untracked bool AddPositionError = false
-
-        untracked int32 UpdateGraphs = 100
-    }
-
-    bool RefitterDebug = true
 }

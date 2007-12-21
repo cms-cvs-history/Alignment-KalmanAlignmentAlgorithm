@@ -1,0 +1,11 @@
+
+PSet DummyMetricsUpdator =
+{
+    untracked vuint32 FixedAlignableDetIds = { 1, 2 }
+}
+
+
+PSet SimpleMetricsUpdator =
+{
+    untracked int32 MaxMetricsDistance = 3
+}
