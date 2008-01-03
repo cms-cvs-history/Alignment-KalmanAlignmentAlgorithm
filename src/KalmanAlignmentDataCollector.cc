@@ -3,6 +3,7 @@
 
 #include "TGraph.h"
 #include "TFile.h"
+#include "TH1F.h"
 
 using namespace std;
 
