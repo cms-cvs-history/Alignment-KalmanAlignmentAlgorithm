@@ -10,7 +10,7 @@ block KalmanAlignmentAlgorithm =
     include "Alignment/KalmanAlignmentAlgorithm/data/TrajectoryUpdators.cff"	
     string AlignmentUpdator = "SingleTrajectoryUpdator"
 
-    include "Alignment/ReferenceTrajectories/data/MetricsUpdators.cff"
+    include "Alignment/KalmanAlignmentAlgorithm/data/MetricsUpdators.cff"
     string MetricsUpdator = "SimpleMetricsUpdator"
 
     PSet TrackRefitter =
