@@ -1,10 +1,15 @@
 
-PSet SingleTrajectoryUpdator =
+block SingleTrajectoryUpdator =
 {
+    AlignmentUpdatorName = "SingleTrajectoryUpdator"
+
     untracked double ExtraWeight = 1e-4
     untracked double ExternalPredictionWeight = 1.
     untracked bool CheckCovariance = false
 }
 
 
-PSet DummyUpdator = { }
+PSet DummyUpdator =
+{
+    AlignmentUpdatorName = "DummyUpdator"
+}

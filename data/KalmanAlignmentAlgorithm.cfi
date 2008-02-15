@@ -1,83 +1,52 @@
 # parameters for KalmanAlignmentAlgorithm
 
+include "Alignment/KalmanAlignmentAlgorithm/data/DummySetup.cfi"
+
 block KalmanAlignmentAlgorithm =
 {
     string algoName = "KalmanAlignmentAlgorithm"
 
-    include "Alignment/ReferenceTrajectories/data/TrajectoryFactories.cff"
-    PSet TrajectoryFactory = { using ReferenceTrajectoryFactory }
+    untracked bool WriteAlignmentParameters = true
+    string OutputFile = "output.root"
 
-    include "Alignment/KalmanAlignmentAlgorithm/data/TrajectoryUpdators.cff"	
     string AlignmentUpdator = "SingleTrajectoryUpdator"
+    #string AlignmentUpdator = "UpdatorWithHierarchyConstraints"
+    PSet SingleTrajectoryUpdator =
+    #PSet UpdatorWithHierarchyConstraints =
+    {
+    	untracked double ExtraWeight = 1e-4
+    	untracked double ExternalPredictionWeight = 20.0
+    	untracked bool CheckCovariance = false
+    }
+    PSet DummyUpdator = { }
 
-    include "Alignment/KalmanAlignmentAlgorithm/data/MetricsUpdators.cff"
+    include "Alignment/ReferenceTrajectories/data/TrajectoryFactories.cff"
+    PSet TrajectoryFactory =
+    {
+	using ReferenceTrajectoryFactory
+	#using BzeroReferenceTrajectoryFactory
+	#using TwoBodyDecayReferenceTrajectoryFactory
+    }
+
     string MetricsUpdator = "SimpleMetricsUpdator"
+    PSet SimpleMetricsUpdator = { untracked int32 MaxMetricsDistance = 3 }
+    PSet DummyMetricsUpdator = { }
 
-    PSet TrackRefitter =
+    PSet DataCollector =
     {
-	string Fitter = "KFFittingSmoother"   
-	string Propagator = "AnalyticalPropagator"
-	string TTRHBuilder = "WithoutRefit"
-	bool useHitsSplitting = false
-	untracked bool debug = true
-
-	vstring TrackingSetup = { "PixelBarrelTracking" }
-
-	PSet PixelBarrelTracking =
-	{
-	    vint32 Tracking = { 1 }
-	    vint32 External = { 3, 5 }
-
-	    untracked uint32 MinTrackingHits = 3
-	    untracked uint32 MinExternalHits = 7
-
-	    untracked string PropagationDirection = "alongMomentum"
-	    untracked string ExternalPropagationDirection = "alongMomentum"
-
-	    untracked bool SortInsideOut = true
-	    untracked bool SortExternalInsideOut = true
-
-	    untracked bool ReuseMomentumEstimate = true
-	    untracked bool ExternalReuseMomentumEstimate = true
-	}
+	untracked string FileName = "debug.root"
+	untracked double XMin = -10
+	untracked double XMax = 10
+	untracked int32 NBins = 400
     }
-
-    PSet Initialization =
-    {
-        untracked int32 UpdateGraphs = 100
-	untracked bool AddPositionError = false
-	untracked bool ApplyRandomStartValues = false
-
-	vstring InitializationSelector = { "PixelBarrel" }
-
-	PSet PixelBarrel =
-	{
- 	    vstring AlignableSelection = { "PixelDets" }
-
-	    untracked string FileName = "pixeldets.root"
-
-	    untracked bool ReadParametersFromFile = false
-	    untracked bool ReadCovarianceFromFile = false
-	    untracked bool ApplyParametersFromFile = false
-	    untracked bool ApplyErrorFromFile = false
-
- 	    untracked double XShiftsStartError = 1e-4
- 	    untracked double YShiftsStartError = 1e-4
- 	    untracked double ZShiftsStartError = 1e-4
- 	    untracked double XRotationsStartError = 1e-8
- 	    untracked double YRotationsStartError = 1e-8
- 	    untracked double ZRotationsStartError = 1e-8
-
- 	    untracked double SigmaXShifts = 1e-4
- 	    untracked double SigmaYShifts = 1e-4
- 	    untracked double SigmaZShifts = 1e-4
- 	    untracked double SigmaXRotations = 1e-8
- 	    untracked double SigmaYRotations = 1e-8
- 	    untracked double SigmaZRotations = 1e-8
-	}
-    }
-
-    PSet DataCollector = { untracked string FileName = "KalmanAlignmentAlgorithm.root" }
 
     untracked string TimingLogFile = "Timing.log"
+
+    bool RefitterDebug = false
+
+    using DummySetup
+    #using TIF_TIBAlignment
+    #using TIF_TOBAlignment
+    #using TIF_TIBTOBAlignment
+    #using TIF_ChiSquareTestSetup
 }

@@ -1,11 +1,15 @@
 
-PSet DummyMetricsUpdator =
+block DummyMetricsUpdator =
 {
-    untracked vuint32 FixedAlignableDetIds = { 1, 2 }
+    string MetricsUpdatorName = "DummyMetricsUpdator"
+
+    untracked vuint32 FixedAlignableDetIds = { }
 }
 
 
-PSet SimpleMetricsUpdator =
+block SimpleMetricsUpdator =
 {
-    untracked int32 MaxMetricsDistance = 3
+    string MetricsUpdatorName = "SimpleMetricsUpdator"
+
+    untracked int32 MaxMetricsDistance = 5
 }
