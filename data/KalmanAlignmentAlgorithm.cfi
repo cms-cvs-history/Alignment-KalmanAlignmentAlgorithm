@@ -1,36 +1,17 @@
-# parameters for KalmanAlignmentAlgorithm
-
-include "Alignment/KalmanAlignmentAlgorithm/data/DummySetup.cfi"
+# Dummy implementation of KalmanAlignmentAlgorithm.cfi.
+# See Alignment/KalmanAlignmentAlgorithm/test for configuration examples.
 
 block KalmanAlignmentAlgorithm =
 {
     string algoName = "KalmanAlignmentAlgorithm"
 
+    PSet TrackRefitter = { }
+
+    PSet Initialization = { }
+
     untracked bool WriteAlignmentParameters = true
     string OutputFile = "output.root"
-
-    string AlignmentUpdator = "SingleTrajectoryUpdator"
-    #string AlignmentUpdator = "UpdatorWithHierarchyConstraints"
-    PSet SingleTrajectoryUpdator =
-    #PSet UpdatorWithHierarchyConstraints =
-    {
-    	untracked double ExtraWeight = 1e-4
-    	untracked double ExternalPredictionWeight = 20.0
-    	untracked bool CheckCovariance = false
-    }
-    PSet DummyUpdator = { }
-
-    include "Alignment/ReferenceTrajectories/data/TrajectoryFactories.cff"
-    PSet TrajectoryFactory =
-    {
-	using ReferenceTrajectoryFactory
-	#using BzeroReferenceTrajectoryFactory
-	#using TwoBodyDecayReferenceTrajectoryFactory
-    }
-
-    string MetricsUpdator = "SimpleMetricsUpdator"
-    PSet SimpleMetricsUpdator = { untracked int32 MaxMetricsDistance = 3 }
-    PSet DummyMetricsUpdator = { }
+    string TimingLogFile = "timing.log"
 
     PSet DataCollector =
     {
@@ -39,14 +20,4 @@ block KalmanAlignmentAlgorithm =
 	untracked double XMax = 10
 	untracked int32 NBins = 400
     }
-
-    untracked string TimingLogFile = "Timing.log"
-
-    bool RefitterDebug = false
-
-    using DummySetup
-    #using TIF_TIBAlignment
-    #using TIF_TOBAlignment
-    #using TIF_TIBTOBAlignment
-    #using TIF_ChiSquareTestSetup
 }

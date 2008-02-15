@@ -1,0 +1,25 @@
+
+block SingleTrajectoryUpdatorForPixels =
+{
+    string AlignmentUpdatorName = "SingleTrajectoryUpdator"
+
+    untracked double ExtraWeight = 1e-6
+    untracked double ExternalPredictionWeight = 10.
+    untracked bool CheckCovariance = false
+}
+
+
+block SingleTrajectoryUpdatorForStrips =
+{
+    string AlignmentUpdatorName = "SingleTrajectoryUpdator"
+
+    untracked double ExtraWeight = 1e-4
+    untracked double ExternalPredictionWeight = 10.
+    untracked bool CheckCovariance = false
+}
+
+
+block DummyUpdator =
+{
+    string AlignmentUpdatorName = "DummyUpdator"
+}
