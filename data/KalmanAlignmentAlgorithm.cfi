@@ -5,19 +5,30 @@ block KalmanAlignmentAlgorithm =
 {
     string algoName = "KalmanAlignmentAlgorithm"
 
-    PSet TrackRefitter = { }
-
-    PSet Initialization = { }
+    PSet AlgorithmConfig = { vstring Setups = { } }
+    PSet ParameterConfig = { }
 
     untracked bool WriteAlignmentParameters = true
     string OutputFile = "output.root"
-    string TimingLogFile = "timing.log"
+
+    untracked string TimingLogFile = "timing.log"
+
+    PSet TrackRefitter =
+    {
+	string Fitter = "KFFittingSmoother"   
+	string Propagator = "AnalyticalPropagator"
+	string TTRHBuilder = "WithoutRefit"
+	string AlgorithmName = "undefAlgorithm"
+	string src = ""
+	string bsSrc = ""
+	untracked bool debug = true
+    }
 
     PSet DataCollector =
     {
 	untracked string FileName = "debug.root"
-	untracked double XMin = -10
-	untracked double XMax = 10
+	untracked double XMin = -20
+	untracked double XMax = 20
 	untracked int32 NBins = 400
     }
 }
